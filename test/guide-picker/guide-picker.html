@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Guide Picker</title>
+<style>
+  .axis path {
+    display: none;
+  }
+  .axis line {
+    stroke: black;
+  }
+  .guide-picker {
+    outline: none;
+  }
+  .selected {
+    fill: rgba(178,34,34,.7);
+  }
+  .resize path {
+    shape-rendering: crispedges;
+  }
+</style>
+<body>
+  <div class="guide-picker"></div>
+  <script src="../../guide-picker.js"></script>
+  <script src="../../data-layer.js"></script>
+  <script>
+    var options = {
+      layout: {
+        target: document.querySelector('.guide-picker'),
+        width: document.querySelector('.guide-picker').offsetWidth,
+        height: window.innerHeight,
+        margin:{ top: 40, right: 80, bottom: 60, left: 60 }
+      },
+      axes: {
+        x: {
+          name: 'Percent Peptide',
+          path: 'scores.site.percent_peptide.value',
+          round: true,
+        },
+        y: {
+          name: 'Representation',
+          path: 'scores.site.representation.value',
+          round: true,
+        }
+      },
+      tools: {
+        force: true
+      }
+    };
+
+    var payloadOptions = {
+      gene: 'BRAF',
+      genome: 'GRCh38.81',
+      method: 'load_scored_guides',
+      nuclease: 'SpCas9'
+    };
+
+    var domain = '';
+    var token = '';
+    var guidePicker = new guidePicker.default(options);
+    var loader = new dataLayer.default.Loader(domain, token);
+    var payload = loader.makeRpcPayload(payloadOptions);
+
+    var draw = function(response) {
+      guidePicker.draw(response.result.data);
+    }
+
+    loader.makeRequest('rpc', payload).then(draw);
+  </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Guide Picker</title>
+<style>
+  .axis path {
+    display: none;
+  }
+  .axis line {
+    stroke: black;
+  }
+  .guide-picker {
+    float:left;
+    outline: none;
+    width: 50%;
+  }
+  .selected {
+    fill: rgba(178,34,34,.7);
+  }
+  .resize path {
+    shape-rendering: crispEdges;
+  }
+</style>
+<body>
+  <div class="guide-picker" id="picker-1"></div>
+  <div class="guide-picker" id="picker-2"></div>
+  <script src="../../guide-picker.js"></script>
+  <script src="../../data-layer.js"></script>
+  <script>
+    var options = function (options) {
+      return {
+        layout: {
+          target: document.querySelector(options.target),
+          width: window.innerWidth / 2,
+          height: window.innerWidth / 2,
+          margin:{ top: 40, right: 80, bottom: 60, left: 60 }
+        },
+        axes: {
+          x: {
+            name: options.x.name,
+            path: options.x.path,
+            round: true,
+          },
+          y: {
+            name: options.y.name,
+            path: options.y.path,
+            round: true,
+          }
+        },
+        tools: {
+          force: true
+        }
+      }
+    };
+
+    var opt1 = {
+      target: '#picker-1',
+      x: {
+        name: 'Percent Peptide',
+        path: 'scores.site.percent_peptide.value'
+      },
+      y: {
+        name: 'Representation',
+        path: 'scores.site.representation.value'
+      }
+    }
+
+    var opt2 = {
+      target: '#picker-2',
+      x: {
+        name: 'Off-target score (Hsu 2013)',
+        path: 'scores.offtarget.hsu_2013.value'
+      },
+      y: {
+        name: 'Off-target score (Doench 2016, full)',
+        path: 'scores.activity.doench_2016_full.value'
+      }
+    }
+
+    var payloadOptions = {
+      gene: 'BRAF',
+      genome: 'GRCh38.81',
+      method: 'load_scored_guides',
+      nuclease: 'SpCas9'
+    };
+
+    var gp1 = new guidePicker.default(options(opt1));
+    var gp2 = new guidePicker.default(options(opt2));
+
+    var domain = '';
+    var token = '';
+    var loader = new dataLayer.default.Loader(domain, token);
+    var payload = loader.makeRpcPayload(payloadOptions);
+
+    var draw = function(response) {
+      gp1.draw(response.result.data);
+      gp2.draw(response.result.data);
+    }
+
+    loader.makeRequest('rpc', payload).then(draw);
+
+    document.querySelector('#picker-1').addEventListener('select', e => {
+      gp2.config.selected = new Set(e.detail);
+      gp2.config.styleSelected();
+    })
+
+    document.querySelector('#picker-2').addEventListener('select', e => {
+      gp1.config.selected = new Set(e.detail);
+      gp1.config.styleSelected();
+    })
+  </script>
+</body>
+</html>
