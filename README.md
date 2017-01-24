@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.deskgen.com">
-    <img width="100" heigth="100" src="https://github.com/DeskGen/dgsource/blob/master/browser/landing/app/images/deskgen.png"/>
+    <img width="100" heigth="100" src="./deskgen.png"/>
   </a>
 </p>
 
@@ -79,6 +79,6 @@ npm install
 npm run build
 npm run build-test
 ```
-In your browser, navigate to one of the two files 
-- `file:///Users/.../open-guide-picker/test/guide-picker/guide-picker.html` 
+In your browser, navigate to one of the two files
+- `file:///Users/.../open-guide-picker/test/guide-picker/guide-picker.html`
 - `file:///Users/.../open-guide-picker/test/guide-picker/multi-picker.html`
