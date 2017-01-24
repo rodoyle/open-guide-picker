@@ -1,5 +1,5 @@
 {
-  "name": "guidePicker",
+  "name": "guide-picker",
   "version": "0.1.0",
   "description": "Guide Picker is an open source tool from Desktop Genetics designed to visualise gRNAs",
   "main": "guide-picker.js",
@@ -35,7 +35,8 @@
     "browserify-test": "browserify lib/index.js -s dataLayer -o data-layer.js",
     "build-test": "npm run clean-test && npm run babel-test && npm run browserify-test",
     "clean-test": "rm -rf lib && rm -f data-layer.js",
-    "test": "karma start test/karma.conf.js --single-run"
+    "test": "karma start test/karma.conf.js --single-run",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "visualisation",
