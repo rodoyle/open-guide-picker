@@ -1,4 +1,5 @@
 node_modules
+npm-debug.log
 /guide-picker.js
 /data-layer.js
 lib
