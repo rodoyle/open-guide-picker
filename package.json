@@ -1,6 +1,6 @@
 {
   "name": "guide-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Guide Picker is an open source tool from Desktop Genetics designed to visualise gRNAs",
   "main": "guide-picker.js",
   "dependencies": {
